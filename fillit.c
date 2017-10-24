@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 19:06:10 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/23 20:03:47 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/23 21:57:46 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static int valid_line_to_int(char *line)
 ** 1) Add connection check.
 */
 
-static int *get_validated_pieces(int fd)
+static t_piece **get_validated_pieces(int fd)
 {
 	char	*line;
-	int		*pieces;
+	t_piece	**pieces;
 	int		i;
 	int		pc;
 	int		tmp;
@@ -70,25 +70,28 @@ static int *get_validated_pieces(int fd)
 		if (i % 5 == 0)
 		{
 			pc++;
-			pieces = ft_realloc(pieces, sizeof(int) * (i + 1));
-			pieces[pc] = 0;
+			pieces = ft_realloc(pieces, sizeof(t_piece *) * (i + 1));
+			pieces[pc] = ft_memalloc(sizeof(t_piece *));
+			(pieces[pc])->shape = 0;
+			(pieces[pc])->width = 0;
+			(pieces[pc])->height = 0;
 		}
 		if (i % 5 != 4)
 		{
 			if ((tmp = valid_line_to_int(line)) == -1)
 			{
 				free(line);
-				free(pieces);
+				ft_free_2d_array(pieces, pc);
 				return (NULL):
 			}
-			pieces[i] = (pieces[i] << 4) + tmp;
+			(pieces[pc])->shape = ((pieces[pc])->shape << 4) + tmp;
 		}
 		else
 		{
 			if (line != NULL)
 			{
 				free(line);
-				free(pieces);
+				ft_free_2d_array(pieces, pc);
 				return (NULL);
 			}
 		}
@@ -119,6 +122,7 @@ static int	solve(int *pieces, char **map, int map_size, long double map_placemen
 	found = 0;
 	while (!found)
 	{
+	
 		found = consider(pieces, map, map_size, map_placement);
 		
 	}
