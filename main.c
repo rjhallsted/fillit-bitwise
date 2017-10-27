@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/27 14:50:47 by rhallste         ###   ########.fr       */
+/*   Created: 2017/10/27 14:32:01 by rhallste          #+#    #+#             */
+/*   Updated: 2017/10/27 14:51:30 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
+#include <fcntl.h>
+#include "libft/inc/libft.h"
+#include "fillit.h"
 
-# include <string.h>
-
-# define ERROR_RETURN(i) ft_putendl("Error"); return (i)
-
-enum
+int main(int argc, char **argv)
 {
-	PASS,
-	ARG_ISSUE,
-	INPUT_ISSUE,
-	SOLVE_ISSUE
-};
+	int		fd;
+	t_piece	*pieces;
+	char	*map;
 
-typedef struct	s_piece
-{
-	int			shape;
-	size_t		width;
-	size_t		height;
-}				t_piece;
+	if (argc == 2)
+	{
+		if ((fd = open(argv[1], O_RDONLY)) == -1)
+			ERROR_RETURN(ARG_ISSUE);
+		if (!(pieces = build_valid_pieces(fd)))
+			ERROR_RETURN(INPUT_ISSUE)
+		if (!(map = solve(pieces)))
+			ERROR_RETURN(SOLVE_ISSUE)
+	}
+	else
+		ERROR_RETURN(ARG_ISSUE);
 
-t_piece			*build_valid_pieces(int fd);
-
-#endif
+}
