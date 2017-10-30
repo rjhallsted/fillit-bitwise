@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:32:01 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/27 15:05:25 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/30 13:32:51 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int main(int argc, char **argv)
 	{
 		if ((fd = open(argv[1], O_RDONLY)) == -1)
 			ERROR_RETURN(ARG_ISSUE);
-		if (!(pieces = build_valid_pieces(fd)))
+		if (!(pieces = get_pieces(fd)))
 			ERROR_RETURN(INPUT_ISSUE);
 		if (!(map = solve(pieces)))
 			ERROR_RETURN(SOLVE_ISSUE);
 		ft_putstr(map);
-		return (0);
+		return (PASS);
 	}
 	else
 		ERROR_RETURN(ARG_ISSUE);

@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/27 15:05:58 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/10/30 13:32:22 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef struct	s_piece
 	size_t		height;
 }				t_piece;
 
-t_piece			**build_valid_pieces(int fd);
+t_pieces		*get_pieces(int fd);
+int				validate_input(int fd);
 char			*solve(t_piece *pieces);
 
 
