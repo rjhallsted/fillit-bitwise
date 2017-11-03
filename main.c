@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:32:01 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/03 13:42:38 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/03 14:47:31 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,19 @@
 #include "fillit.h"
 
 #include <stdio.h>
+
+void	print_piece_data(t_piece **pieces)
+{
+	t_piece *current;
+	
+	while (*pieces)
+	{
+		current = *pieces;
+		printf("%d -> %s\n", current->shape, ft_itoa_base(current->shape, 2));
+		printf("height: %zu\n", current->height);
+		pieces++;
+	}
+}
 
 int main(int argc, char **argv)
 {
@@ -31,6 +44,7 @@ int main(int argc, char **argv)
 		if (!(pieces = get_pieces(fd)))
 			ERROR_RETURN(INPUT_ISSUE)
 		printf("got_pieces\n");
+		print_piece_data(pieces);
 		/* if (!(map = solve(pieces))) */
 		/* 	ERROR_RETURN(SOLVE_ISSUE); */
 		/* ft_putstr(map); */

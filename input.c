@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 15:02:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/03 13:44:19 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/03 14:59:11 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,17 @@ static void		init_shape(t_piece *piece, char *input, int file_loc)
 	}
 }
 
-/*
-** WORKING ON THIS FUNCTION BELOW
-*/
-
 static void		trim_shape_rows(t_piece *piece)
 {
 	int tmp_val;
 	int count;
 
 	tmp_val = piece->shape;
-	while (((tmp_val >> 4) ^ 0xfff0) == 0)
+	while ((tmp_val & 0xf) == 0)
 		tmp_val = tmp_val >> 4;
 	piece->shape = tmp_val;
-	count = 1;
-	while (((tmp_val >> 4) ^ 0xfff0) != 0)
+	count = 0;
+	while ((tmp_val & 0xf) != 0)
 	{
 		tmp_val = tmp_val >> 4;
 		count++;
