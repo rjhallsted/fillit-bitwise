@@ -6,13 +6,13 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 11:43:30 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/30 13:24:48 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/02 20:14:16 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "fillit.h"
-#include "libft.h"
+#include "libft/inc/libft.h"
 
 static int	count_connections(char *piece, int index)
 {

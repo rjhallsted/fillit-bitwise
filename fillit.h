@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/10/30 13:32:22 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/02 20:18:43 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <string.h>
 
-# define ERROR_RETURN(i) ft_putendl("Error"); return (i)
+# define ERROR_RETURN(i) { ft_putendl("Error"); return (i); }
 
 enum
 {
@@ -32,8 +32,8 @@ typedef struct	s_piece
 	size_t		height;
 }				t_piece;
 
-t_pieces		*get_pieces(int fd);
-int				validate_input(int fd);
+t_piece			*get_pieces(int fd);
+int				validate_input(char *input);
 char			*solve(t_piece *pieces);
 
 
