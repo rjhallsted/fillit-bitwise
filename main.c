@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:32:01 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/03 14:47:31 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/03 15:35:40 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_piece_data(t_piece **pieces)
 	{
 		current = *pieces;
 		printf("%d -> %s\n", current->shape, ft_itoa_base(current->shape, 2));
-		printf("height: %zu\n", current->height);
+		printf("%zu x %zu\n", current->width, current->height);
 		pieces++;
 	}
 }

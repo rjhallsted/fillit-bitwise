@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 15:02:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/03 14:59:11 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/03 15:34:18 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,29 @@ static void		init_shape(t_piece *piece, char *input, int file_loc)
 	}
 }
 
-static void		trim_shape_rows(t_piece *piece)
+static int		shift_piece(t_piece *piece, int mask, int shift_by)
 {
 	int tmp_val;
 	int count;
 
 	tmp_val = piece->shape;
-	while ((tmp_val & 0xf) == 0)
-		tmp_val = tmp_val >> 4;
+	while ((tmp_val & mask) == 0)
+		tmp_val = tmp_val >> shift_by;
 	piece->shape = tmp_val;
 	count = 0;
-	while ((tmp_val & 0xf) != 0)
+	while ((tmp_val & mask) != 0)
 	{
-		tmp_val = tmp_val >> 4;
+		tmp_val = tmp_val >> shift_by;
 		count++;
 	}
-	piece->height = count;
+	return (count);
 }
 
 static void		init_piece(t_piece *piece, char *input, int file_loc)
 {
 	init_shape(piece, input, file_loc);
-	trim_shape_rows(piece);
+	piece->height = shift_piece(piece, 0xf, 4);
+	piece->width = shift_piece(piece, 0x1111, 1);
 }
 
 static t_piece	**build_pieces(char *input)
