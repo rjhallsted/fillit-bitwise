@@ -6,13 +6,15 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:32:01 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/02 21:01:16 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/03 13:42:38 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "libft/inc/libft.h"
 #include "fillit.h"
+
+#include <stdio.h>
 
 int main(int argc, char **argv)
 {
