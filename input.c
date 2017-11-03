@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 15:02:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/02 20:12:32 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/02 20:43:20 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 
 static char		*read_file(int fd)
 {
-	char	buff[545];
+	char	buff[BUFF_SIZE + 1];
 	int		rv;
 	int		prog;
 
 	prog = 0;
-	while ((rv = read(fd, buff + prog, 545 - prog)) && rv != -1)
+	while ((rv = read(fd, buff + prog, BUFF_SIZE - prog)) && rv != -1)
 		prog += rv;
+	buff[prog] = '\0';
 	return ((rv != -1) ? ft_strdup(buff) : NULL);
 }
 
@@ -44,33 +45,37 @@ static void		init_piece(t_piece *piece, char *input, int file_loc)
 	}
 }
 
-static t_piece	*build_pieces(char *input)
+static t_piece	**build_pieces(char *input)
 {
 	int			i;
 	int			pc;
 	int			file_loc;
-	t_piece		*pieces;
+	t_piece		**pieces;
 
 	pc = (ft_strlen(input) / 21) + 1;
-	if (!(pieces = ft_memalloc((sizeof(t_piece) * pc) + 1)))
+	if (!(pieces = ft_memalloc((sizeof(t_piece *) * (pc + 1)))))
 		return (NULL);
 	i = 0;
 	file_loc = 0;
 	while (i < pc)
 	{
-		ft_bzero((void *)(pieces + i), sizeof(t_piece));
-		init_piece(&(pieces[i]), input, file_loc);
+		if (!(pieces[i] = ft_memalloc(sizeof(t_piece))))
+		{
+			ft_free_2d_array((void ***)&pieces, i);
+			return (NULL);
+		}
+		init_piece(pieces[i], input, file_loc);
 		file_loc += 21;
 		i++;
 	}
-	pieces[i].shape = -1;
+	pieces[i] = NULL;
 	return (pieces);
 }
 
-t_piece			*get_pieces(int fd)
+t_piece			**get_pieces(int fd)
 {
 	char	*input;
-	t_piece	*pieces;
+	t_piece	**pieces;
 
 	if (!(input = read_file(fd)))
 		return (NULL);

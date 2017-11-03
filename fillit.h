@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/02 20:18:43 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/02 20:30:53 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 # include <string.h>
 
 # define ERROR_RETURN(i) { ft_putendl("Error"); return (i); }
+# define BUFF_SIZE 545
 
 enum
 {
-	PASS,
-	ARG_ISSUE,
-	INPUT_ISSUE,
-	SOLVE_ISSUE
+	PASS = 0,
+	ARG_ISSUE = 1,
+	INPUT_ISSUE = 2,
+	SOLVE_ISSUE = 3
 };
 
 typedef struct	s_piece
@@ -32,7 +33,7 @@ typedef struct	s_piece
 	size_t		height;
 }				t_piece;
 
-t_piece			*get_pieces(int fd);
+t_piece			**get_pieces(int fd);
 int				validate_input(char *input);
 char			*solve(t_piece *pieces);
 
