@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/02 20:30:53 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/04 12:38:56 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,19 @@ typedef struct	s_piece
 	int			shape;
 	size_t		width;
 	size_t		height;
+	char		id;
+	int			position;
 }				t_piece;
+
+typedef struct	s_map
+{
+	int			size;
+	long long	placement;
+}				t_map;
 
 t_piece			**get_pieces(int fd);
 int				validate_input(char *input);
+int				try(t_pieces **pieces, t_map *map);
 char			*solve(t_piece *pieces);
 
 

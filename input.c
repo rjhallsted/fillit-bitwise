@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 15:02:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/03 15:34:18 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/04 12:24:27 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ static int		shift_piece(t_piece *piece, int mask, int shift_by)
 	return (count);
 }
 
-static void		init_piece(t_piece *piece, char *input, int file_loc)
+static void		init_piece(t_piece *piece, char *input, int file_loc, char id)
 {
 	init_shape(piece, input, file_loc);
 	piece->height = shift_piece(piece, 0xf, 4);
 	piece->width = shift_piece(piece, 0x1111, 1);
+	piece->id = id;
+	piece->location = -1;
 }
 
 static t_piece	**build_pieces(char *input)
@@ -89,7 +91,7 @@ static t_piece	**build_pieces(char *input)
 			ft_free_2d_array((void ***)&pieces, i);
 			return (NULL);
 		}
-		init_piece(pieces[i], input, file_loc);
+		init_piece(pieces[i], input, file_loc, i + 'A');
 		file_loc += 21;
 		i++;
 	}
