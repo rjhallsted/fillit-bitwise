@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/04 12:37:55 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/05 12:54:56 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_map	*new_map(int map_size)
 	return (map);
 }
 
+//maybe add compensation for min piece width and height to the smallest map size calc
+
 char	*solve(t_piece **pieces)
 {
 	int		pc;
@@ -58,16 +60,24 @@ char	*solve(t_piece **pieces)
 	map_size = smallest_map(pc);
 	solved = 0;
 	map = NULL;
-	while (!solved)
-	{
-		if (map)
-			free(map);
-		map = new_map(map_size);
-		solved = try(pieces, map);
-		map_size++;
-	}
+	/* while (!solved) */
+	/* { */
+	/* 	if (map) */
+	/* 		free(map); */
+	/* 	map = new_map(map_size); */
+	/* 	solved = try(pieces, map); */
+	/* 	map_size++; */
+	/* } */
 
-	printf("solved\n");
+	map = new_map(3);
+	while (*pieces)
+	{
+		try(pieces, map);
+		pieces++;
+	}
+	return (NULL);
+	
+//	printf("solved\n");
 	//build map_string.
 	//once true, build map string. (string of size^2 + size + 1)
 	// 		each piece has id and position, from bottom-right corner. Write to map as necessary.
