@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 12:39:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/05 12:54:39 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/05 15:09:41 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 #include <stdio.h>
 
-int pad_shape(t_piece *piece, int pad_by)
+static long long pad_shape(t_piece *piece, int pad_by)
 {
-	int num;
+	long long num;
 	int tmp;
 	int lines;
 	int shift;
@@ -33,50 +33,81 @@ int pad_shape(t_piece *piece, int pad_by)
 			num = num << shift;
 		tmp = (piece->shape >> (lines * 4)) & 0xf;
 		num = num | tmp;
-		if (pad_by > 0)
+		if (pad_by > 0 && lines != 0)
 			num = num << pad_by;
 		lines--;
 	}
 	return (num);
 }
 
+static long long	modify_shape_to(t_piece *piece, t_map *map, int pos)
+{
+	long long morphed;
+	int shift_by;
 
-/* int	find_placement(t_piece *piece, t_map *map, int start) */
-/* { */
+	morphed = pad_shape(piece, map->size - 4);
+	shift_by = pos - (((piece->height - 1) * map->size) + piece->width);
+	return (morphed << shift_by);
+}
 
-/* } */
+static	int find_placement(t_piece *piece, t_map *map, int start)
+{
+	long long padded_num;
+	int can_place;
+	int min_place;
 
-/* static void place_piece(t_piece *piece, t_map *map, int placement) */
-/* { */
+	can_place = 0;
+	min_place = (((piece->height - 1) * map->size) + piece->width);
+	while (!can_place && start >= min_place)
+	{
+		if (start + piece->width - 1 > start + map->size)
+			can_place = 0;
+		else
+		{
+			padded_num = modify_shape_to(piece, map, start);
+			can_place = !(padded_num & map->placement);
+		}
+		if (!can_place)
+			start--;
+	}
+	return ((can_place) ? start : -1);
+}
 
-/* } */
+static void place_piece(t_piece *piece, t_map *map, int placement)
+{
+	long long padded_num;
 
-/* static void	remove_piece(t_piece *piece, t_map *map) */
-/* { */
+	padded_num = modify_shape_to(piece, map, placement);
+	piece->position = placement;
+	map->placement = map->placement | padded_num;
+}
 
-/* } */
+static void	remove_piece(t_piece *piece, t_map *map)
+{
+	long long padded_num;
+	
+	padded_num = modify_shape_to(piece, map, piece->position);
+	map->placement = map->placement ^ padded_num;
+}
 
 int	try(t_piece **pieces, t_map *map)
 {
-	printf("trying\n");
-	printf("%s -> %s\n", ft_itoa_base((*pieces)->shape, 2), ft_itoa_base(pad_shape(*pieces, -1), 2));
-	return (1);
-	/* int place; */
-	/* int success; */
+	int place;
+	int success;
 
-	/* success = 0; */
-	/* place = find_placement(*pieces, map, (map->size * map->size) - 1); */
-	/* while (!success && place != -1) */
-	/* { */
-	/* 	place_piece(*pieces, map, place); */
-	/* 	if (*(pieces + 1) == NULL) */
-	/* 		return (1); */
-	/* 	success = try(pieces + 1, map); */
-	/* 	if (!success) */
-	/* 	{ */
-	/* 		remove_piece(*pieces, map); */
-	/* 		place = find_placement(*pieces, map, place - 1); */
-	/* 	} */
-	/* } */
-	/* return (success); */
+	success = 0;
+	place = find_placement(*pieces, map, (map->size * map->size) - 2);
+	while (!success && place != -1)
+	{
+		place_piece(*pieces, map, place);
+		if (*(pieces + 1) == NULL)
+			return (1);
+		success = try(pieces + 1, map);
+		if (!success)
+		{
+			remove_piece(*pieces, map);
+			place = find_placement(*pieces, map, place - 1);
+		}
+	}
+	return (success);
 }
