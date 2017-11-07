@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 15:02:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/04 16:56:35 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 18:42:01 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static char		*read_file(int fd)
 static void		init_shape(t_piece *piece, char *input, int file_loc)
 {
 	int i;
-
+	int tmp;
+	
 	i = 0;
 	while (i < 20)
 	{

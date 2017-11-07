@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/06 17:29:29 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 19:00:22 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,9 @@ static	char *build_map_string(t_piece **pieces, t_map *map)
 {
 	char *map_str;
 	int map_len;
-	int start;
+	t_piece *cur;
 	int pos;
-	int map_loc;
-	t_piece *current;
+	int pad_shape;
 
 	map_len = (map->size * map->size) + map->size;
 	if (!(map_str = malloc(map_len + 1)))
@@ -71,12 +70,18 @@ static	char *build_map_string(t_piece **pieces, t_map *map)
 		map_str[(pos * (map->size + 1)) + map->size] = '\n';
 		pos++;
 	}
-	pos = (map->size * map->size) - 1;
-	while (pos >= 0)
+	while (*pieces)
 	{
-		if ((map->placement >> pos) & 1)
-			map_str[((pos / map->size) * (map->size + 1)) + (pos % map->size)] = '#';
-		pos--;
+		cur = *pieces;
+		pad_shape = modify_shape_to(cur, map->size, cur->position);
+		pos = 0;
+		while (pos < map->size * map->size)
+		{
+			if ((pad_shape >> pos) & 1)
+				map_str[map_len - pos - (pos / map->size) - 2] = cur->id;
+			pos++;
+		}
+		pieces++;
 	}
 	return (map_str);
 }

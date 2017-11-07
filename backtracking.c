@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 12:39:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/06 18:25:43 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 18:48:27 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static long long pad_shape(t_piece *piece, int pad_by)
 	return (num);
 }
 
-static long long	modify_shape_to(t_piece *piece, t_map *map, int pos)
+long long	modify_shape_to(t_piece *piece, int map_size, int pos)
 {
 	long long morphed;
 	int shift_by;
 
-	morphed = pad_shape(piece, map->size - 4);
-	shift_by = pos - (((piece->height - 1) * map->size) + piece->width);
+	morphed = pad_shape(piece, map_size - 4);
+	shift_by = pos - (((piece->height - 1) * map_size) + piece->width);
 	return (morphed << shift_by);
 }
 
@@ -64,7 +64,7 @@ static	int find_placement(t_piece *piece, t_map *map, int start)
 			can_place = 0;
 		else
 		{
-			padded_num = modify_shape_to(piece, map, start);
+			padded_num = modify_shape_to(piece, map->size, start);
 			can_place = !(padded_num & map->placement);
 		}
 		if (!can_place)
@@ -77,7 +77,7 @@ static void place_piece(t_piece *piece, t_map *map, int placement)
 {
 	long long padded_num;
 
-	padded_num = modify_shape_to(piece, map, placement);
+	padded_num = modify_shape_to(piece, map->size, placement);
 	piece->position = placement;
 	map->placement = map->placement | padded_num;
 }
@@ -86,7 +86,7 @@ static void	remove_piece(t_piece *piece, t_map *map)
 {
 	long long padded_num;
 	
-	padded_num = modify_shape_to(piece, map, piece->position);
+	padded_num = modify_shape_to(piece, map->size, piece->position);
 	map->placement = map->placement ^ padded_num;
 }
 

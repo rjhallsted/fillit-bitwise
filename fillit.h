@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/04 16:57:53 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 18:46:39 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_map
 }				t_map;
 
 t_piece			**get_pieces(int fd);
+long long		modify_shape_to(t_piece *piece, int map_size, int pos);
 int				validate_input(char *input);
 int				try(t_piece **pieces, t_map *map);
 char			*solve(t_piece **pieces);
