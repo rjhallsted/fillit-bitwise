@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/06 17:21:45 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 17:29:29 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,12 @@ static	char *build_map_string(t_piece **pieces, t_map *map)
 		map_str[(pos * (map->size + 1)) + map->size] = '\n';
 		pos++;
 	}
-	while (*pieces)
+	pos = (map->size * map->size) - 1;
+	while (pos >= 0)
 	{
-		current = *pieces;
-		start = ((current->position / map->size) * (map->size + 1)) + (current->position % map->size) + 1;
-//		start -= (current->height * (map->size + 1)) + current->width;
-		printf("%d : %d\n", current->position, start);
-		map_str[start] = current->id;
-		pieces++;
+		if ((map->placement >> pos) & 1)
+			map_str[((pos / map->size) * (map->size + 1)) + (pos % map->size)] = '#';
+		pos--;
 	}
 	return (map_str);
 }
