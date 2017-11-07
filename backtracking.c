@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 12:39:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/06 17:14:06 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 18:25:43 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static	int find_placement(t_piece *piece, t_map *map, int start)
 	min_place = ((piece->height - 1) * map->size) + piece->width;
 	while (!can_place && start >= min_place)
 	{
-		if (start + (int)piece->width - 1 > start + map->size)
+		if (start + (int)piece->width > (start + map->size - (start % map->size)))
 			can_place = 0;
 		else
 		{
@@ -96,7 +96,7 @@ int	try(t_piece **pieces, t_map *map)
 	int success;
 
 	success = 0;
-	place = find_placement(*pieces, map, (map->size * map->size) - 2);
+	place = find_placement(*pieces, map, (map->size * map->size));
 	while (!success && place != -1)
 	{
 		place_piece(*pieces, map, place);
