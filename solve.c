@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/05 15:19:15 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/06 17:21:45 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,42 +55,30 @@ static t_map	*new_map(int map_size)
 static	char *build_map_string(t_piece **pieces, t_map *map)
 {
 	char *map_str;
-	int i;
-	int j;
-	int pos;
 	int map_len;
+	int start;
+	int pos;
+	int map_loc;
+	t_piece *current;
 
 	map_len = (map->size * map->size) + map->size;
-	if (!(map_str = ft_strnew(map_len)))
+	if (!(map_str = malloc(map_len + 1)))
 		return (NULL);
-	i = 0;
-	while (i < map->size)
+	ft_memset(map_str, '.', map_len);
+	pos = 0;
+	while (pos < map->size)
 	{
-		map_str[(i * (map->size + 1)) + map->size] = '\n';
-		i++;
+		map_str[(pos * (map->size + 1)) + map->size] = '\n';
+		pos++;
 	}
 	while (*pieces)
 	{
-		i = 0;
-		while (i < (*pieces)->height)
-		{
-			j = 0;
-			while (j < (*pieces)->width)
-			{
-				pos = (*pieces)->position + (i * (map->size + 1)) + j;
-				map_str[pos] = (*pieces)->id;
-				j++;
-			}
-			i++;
-		}
+		current = *pieces;
+		start = ((current->position / map->size) * (map->size + 1)) + (current->position % map->size) + 1;
+//		start -= (current->height * (map->size + 1)) + current->width;
+		printf("%d : %d\n", current->position, start);
+		map_str[start] = current->id;
 		pieces++;
-	}
-	i = 0;
-	while (i < map_len)
-	{
-		if (map_str[i] == '\0')
-			map_str[i] = '.';
-		i++;
 	}
 	return (map_str);
 }
