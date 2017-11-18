@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 12:39:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/18 12:37:55 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 13:54:39 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	try(t_piece **pieces, t_map *map)
 
 	success = 0;
 	place = find_placement(*pieces, map, (map->size * map->size));
-	printf("placement: %c->%d\n", (*pieces)->id, place);
 	while (!success && place != -1)
 	{
 		place_piece(*pieces, map, place);
