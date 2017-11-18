@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/06 18:46:39 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 14:42:33 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <string.h>
 
-# define ERROR_RETURN(i) { ft_putendl("Error"); return (i); }
+# define ERROR_RETURN(i) { ft_putendl("error"); return (i); }
 # define BUFF_SIZE 545
 
 enum
