@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/06 19:00:22 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 11:49:04 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,29 @@
 #include "fillit.h"
 
 #include <stdio.h>
+
+//REMOVE LATER
+static void print_placement(t_map *map)
+{
+	int i;
+	int j;
+	int tmp;
+	int mask;
+
+	i = 1;
+	while (i <= map->size)
+	{
+		tmp = map->placement >> ((map->size - i) * map->size);
+		mask = 0;
+		j = 0;
+		while (j++ < map->size)
+			mask = (mask << 1) + 1;
+		tmp = tmp & mask;
+		printf("%s\n", ft_itoa_base(tmp, 2));
+		++i;
+	}
+}
+
 
 static int	smallest_map(t_piece **pieces)
 {
@@ -104,7 +127,9 @@ char	*solve(t_piece **pieces)
 		solved = try(pieces, map);
 		map_size++;
 	}
-	printf("solved(%d)\n", map->size);
-	printf("%s\n", ft_itoa_base(map->placement, 2));
+	printf("solved(%d)\n\n", map->size);
+//	printf("%s\n", ft_itoa_base(map->placement, 2));
+	print_placement(map);
+	printf("\n");
 	return (build_map_string(pieces, map));
 }
