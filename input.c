@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 15:02:51 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/18 11:41:35 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 14:57:17 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,10 @@
 #include "libft/inc/libft.h"
 #include "fillit.h"
 
-static char		*read_file(int fd)
-{
-	char	buff[BUFF_SIZE + 1];
-	int		rv;
-	int		prog;
-
-	prog = 0;
-	while ((rv = read(fd, buff + prog, BUFF_SIZE - prog)) && rv != -1)
-		prog += rv;
-	buff[prog] = '\0';
-	return ((rv != -1) ? ft_strdup(buff) : NULL);
-}
-
 static void		init_shape(t_piece *piece, char *input, int file_loc)
 {
 	int i;
-	
+
 	i = 0;
 	while (i < 20)
 	{
@@ -103,8 +90,15 @@ t_piece			**get_pieces(int fd)
 {
 	char	*input;
 	t_piece	**pieces;
+	char	buff[BUFF_SIZE + 1];
+	int		rv;
+	int		prog;
 
-	if (!(input = read_file(fd)))
+	prog = 0;
+	while ((rv = read(fd, buff + prog, BUFF_SIZE - prog)) && rv != -1)
+		prog += rv;
+	buff[prog] = '\0';
+	if (rv == -1 || !(input = ft_strdup(buff)))
 		return (NULL);
 	if (!(validate_input(input)))
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/18 14:38:05 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 15:13:25 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft/inc/libft.h"
 #include "fillit.h"
 
-static int	smallest_map(t_piece **pieces)
+static int		smallest_map(t_piece **pieces)
 {
 	int size;
 	int width;
@@ -50,26 +50,13 @@ static t_map	*new_map(int map_size)
 	return (map);
 }
 
-static	char *build_map_string(t_piece **pieces, t_map *map)
+static char		*fill_with_pieces(t_piece **pieces, t_map *map, char *map_str)
 {
-	char *map_str;
-	int map_len;
-	t_piece *cur;
-	int pos;
-	long long pad_shape;
-	int rel;
-	
-	map_len = (map->size * map->size) + map->size;
-	if (!(map_str = malloc(map_len + 1)))
-		return (NULL);
-	ft_memset(map_str, '.', map_len);
-	map_str[map_len] = '\0';
-	pos = 0;
-	while (pos < map->size)
-	{
-		map_str[(pos * (map->size + 1)) + map->size] = '\n';
-		pos++;
-	}
+	t_piece		*cur;
+	long long	pad_shape;
+	int			pos;
+	int			rel;
+
 	while (*pieces)
 	{
 		cur = *pieces;
@@ -79,7 +66,8 @@ static	char *build_map_string(t_piece **pieces, t_map *map)
 		{
 			if ((pad_shape >> ((map->size * map->size) - pos)) & 1)
 			{
-				rel = ((pos / map->size) * (map->size + 1)) + (pos % map->size) - 1;
+				rel = (pos / map->size) * (map->size + 1);
+				rel += (pos % map->size) - 1;
 				if (pos % map->size == 0)
 					rel--;
 				map_str[rel] = cur->id;
@@ -91,16 +79,36 @@ static	char *build_map_string(t_piece **pieces, t_map *map)
 	return (map_str);
 }
 
-char	*solve(t_piece **pieces)
+static char		*build_map_string(t_piece **pieces, t_map *map)
+{
+	char		*map_str;
+	int			map_len;
+	int			pos;
+
+	map_len = (map->size * map->size) + map->size;
+	if (!(map_str = malloc(map_len + 1)))
+		return (NULL);
+	ft_memset(map_str, '.', map_len);
+	map_str[map_len] = '\0';
+	pos = 0;
+	while (pos < map->size)
+	{
+		map_str[(pos * (map->size + 1)) + map->size] = '\n';
+		pos++;
+	}
+	return (fill_with_pieces(pieces, map, map_str));
+}
+
+char			*solve(t_piece **pieces)
 {
 	int		map_size;
 	int		solved;
 	t_map	*map;
-	
+
 	map_size = smallest_map(pieces);
 	solved = 0;
 	map = NULL;
-	while (!solved)	
+	while (!solved)
 	{
 		if (map)
 			free(map);

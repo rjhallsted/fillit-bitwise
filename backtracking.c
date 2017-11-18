@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/04 12:39:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/18 13:54:39 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 15:05:29 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 #include <stdio.h>
 
-static long long pad_shape(t_piece *piece, int pad_by)
+static long long	pad_shape(t_piece *piece, int pad_by)
 {
-	long long num;
-	int tmp;
-	int lines;
-	int shift;
+	long long	num;
+	int			tmp;
+	int			lines;
+	int			shift;
 
 	if (pad_by == 0)
 		return (piece->shape);
@@ -40,22 +40,22 @@ static long long pad_shape(t_piece *piece, int pad_by)
 	return (num);
 }
 
-long long	modify_shape_to(t_piece *piece, int map_size, int pos)
+long long			modify_shape_to(t_piece *piece, int map_size, int pos)
 {
-	long long morphed;
-	int shift_by;
+	long long	morphed;
+	int			shift_by;
 
 	morphed = pad_shape(piece, map_size - 4);
 	shift_by = pos - (((piece->height - 1) * map_size) + piece->width);
 	return (morphed << shift_by);
 }
 
-static	int find_placement(t_piece *piece, t_map *map, int start)
+static int			find_placement(t_piece *piece, t_map *map, int start)
 {
-	long long padded_num;
-	int can_place;
-	int min_place;
-	int cmp;
+	long long	padded_num;
+	int			can_place;
+	int			min_place;
+	int			cmp;
 
 	can_place = 0;
 	min_place = ((piece->height - 1) * map->size) + piece->width;
@@ -77,7 +77,7 @@ static	int find_placement(t_piece *piece, t_map *map, int start)
 	return ((can_place) ? start : -1);
 }
 
-static void place_piece(t_piece *piece, t_map *map, int placement)
+static void			place_piece(t_piece *piece, t_map *map, int placement)
 {
 	long long padded_num;
 
@@ -86,18 +86,11 @@ static void place_piece(t_piece *piece, t_map *map, int placement)
 	map->placement = map->placement | padded_num;
 }
 
-static void	remove_piece(t_piece *piece, t_map *map)
+int					try(t_piece **pieces, t_map *map)
 {
-	long long padded_num;
-	
-	padded_num = modify_shape_to(piece, map->size, piece->position);
-	map->placement = map->placement ^ padded_num;
-}
-
-int	try(t_piece **pieces, t_map *map)
-{
-	int place;
-	int success;
+	int			place;
+	int			success;
+	long long	pn;
 
 	success = 0;
 	place = find_placement(*pieces, map, (map->size * map->size));
@@ -109,7 +102,8 @@ int	try(t_piece **pieces, t_map *map)
 		success = try(pieces + 1, map);
 		if (!success)
 		{
-			remove_piece(*pieces, map);
+			pn = modify_shape_to(*pieces, map->size, (*pieces)->position);
+			map->placement = map->placement ^ pn;
 			place = find_placement(*pieces, map, place - 1);
 		}
 	}

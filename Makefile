@@ -6,7 +6,7 @@
 #    By: rhallste <rhallste@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/18 09:37:14 by rhallste          #+#    #+#              #
-#    Updated: 2017/11/18 14:35:32 by rhallste         ###   ########.fr        #
+#    Updated: 2017/11/18 14:45:28 by rhallste         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ $(NAME): $(LIBNAME) $(MAINOBJS)
 
 clean:
 	@rm -rf $(MAINOBJS) $(TESTOBJS)
+	@make -C libft clean
 
 fclean: clean
 	@rm -rf $(NAME) $(LIBNAME) t

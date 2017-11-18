@@ -6,7 +6,7 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/27 14:35:15 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/18 14:42:33 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 14:52:30 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ long long		modify_shape_to(t_piece *piece, int map_size, int pos);
 int				validate_input(char *input);
 int				try(t_piece **pieces, t_map *map);
 char			*solve(t_piece **pieces);
-
 
 #endif
