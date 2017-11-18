@@ -6,48 +6,13 @@
 /*   By: rhallste <rhallste@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/03 15:37:57 by rhallste          #+#    #+#             */
-/*   Updated: 2017/11/18 13:54:11 by rhallste         ###   ########.fr       */
+/*   Updated: 2017/11/18 14:38:05 by rhallste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft/inc/libft.h"
 #include "fillit.h"
-
-#include <stdio.h>
-
-static void print_long_binary(long long num)
-{
-	int tmp;
-
-	tmp = num & 1;
-	if (num >> 1 > 0)
-		print_long_binary(num >> 1);
-	printf("%d", tmp);
-}
-
-//REMOVE LATER
-static void print_placement(t_map *map)
-{
-	int i;
-	int j;
-	int tmp;
-	int mask;
-
-	i = 1;
-	while (i <= map->size)
-	{
-		tmp = map->placement >> ((map->size - i) * map->size);
-		mask = 0;
-		j = 0;
-		while (j++ < map->size)
-			mask = (mask << 1) + 1;
-		tmp = tmp & mask;
-		printf("%s\n", ft_itoa_base(tmp, 2));
-		++i;
-	}
-}
-
 
 static int	smallest_map(t_piece **pieces)
 {
@@ -133,7 +98,6 @@ char	*solve(t_piece **pieces)
 	t_map	*map;
 	
 	map_size = smallest_map(pieces);
-	printf("map size: %d\n", map_size);
 	solved = 0;
 	map = NULL;
 	while (!solved)	
@@ -144,10 +108,5 @@ char	*solve(t_piece **pieces)
 		solved = try(pieces, map);
 		map_size++;
 	}
-	printf("solved(%d)\n\n", map->size);
-	print_long_binary(map->placement);
-	printf("\n");
-	print_placement(map);
-	printf("\n");
 	return (build_map_string(pieces, map));
 }
