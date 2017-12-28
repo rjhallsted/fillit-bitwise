@@ -57,3 +57,6 @@ AA.B
 CCCB
 C..B
 ```
+
+### Appendix
+For info on the `libft` directory, see <https://github.com/rjhallsted/libft>
